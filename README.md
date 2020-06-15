@@ -3,7 +3,6 @@
 A simple API that supports almost all calls and which is mapped to objects accordingly.
 
 ## Initialize the client as follows and work with the api
-
 ```php
 $client = new \HarmSmits\SendCloudClient\Client(
     "...",
@@ -12,7 +11,6 @@ $client = new \HarmSmits\SendCloudClient\Client(
 ```
 
 Going over all parcels is really easy:
-
 ```php
 $cursor = null;
 while (($result = $client->getParcels($cursor))) {
@@ -23,16 +21,14 @@ while (($result = $client->getParcels($cursor))) {
 }
 ```
 
-Statuses work likewise
-
+Statuses work likewise:
 ```php
 foreach ($client->getParcelStatuses() as $parcelStatus) {
     ...
 }
 ```
 
-Same for brands
-
+Same for brands:
 ```php
 $cursor = null;
 while (($result = $client->getBrands($cursor))) {
@@ -44,7 +40,6 @@ while (($result = $client->getBrands($cursor))) {
 ```
 
 Everything can be done asynchronously as well
-
 ```php
 $promise = $client->asyncGetParcelStatuses();
 ...

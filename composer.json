@@ -1,0 +1,26 @@
+{
+    "name": "harm-smits/sendcloud-shipping-api",
+    "type": "library",
+    "description": "A PHP Client for the SendCloud Shipping API with async support and full object mapping",
+    "keywords": [
+        "sendcloud"
+    ],
+    "homepage": "http://github.com/harm-smits/sendcloud-shipping-api",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Harm Smits",
+            "email": "harmsmitsdev@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^6.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "HarmSmits\\SendCloudClient\\": "src/"
+        }
+    }
+}

@@ -15,13 +15,13 @@ use Psr\Http\Message\ResponseInterface;
  * @method PromiseInterface asyncGetParcels(?string $cursor = null, array $search = [])
  * @method \HarmSmits\SendCloudClient\Models\ParcelsResponse getParcels(?string $cursor = null, array $search = [])
  * @method PromiseInterface asyncGetParcel(int $id)
- * @method \HarmSmits\SendCloudClient\Models\ParcelResponse getParcel(int $id)
+ * @method \HarmSmits\SendCloudClient\Models\Parcel getParcel(int $id)
  * @method PromiseInterface asyncCreateParcel(\HarmSmits\SendCloudClient\Models\NewParcel $parcel)
- * @method \HarmSmits\SendCloudClient\Models\ParcelResponse createParcel(\HarmSmits\SendCloudClient\Models\NewParcel $parcel)
+ * @method \HarmSmits\SendCloudClient\Models\Parcel createParcel(\HarmSmits\SendCloudClient\Models\NewParcel $parcel)
  * @method PromiseInterface asyncCreateParcels(array $parcels)
  * @method \HarmSmits\SendCloudClient\Models\ParcelsResponse createParcels(array $parcels)
  * @method PromiseInterface asyncUpdateParcel(\HarmSmits\SendCloudClient\Models\Parcel $parcel)
- * @method \HarmSmits\SendCloudClient\Models\ParcelResponse updateParcel(\HarmSmits\SendCloudClient\Models\Parcel $parcel)
+ * @method \HarmSmits\SendCloudClient\Models\Parcel updateParcel(\HarmSmits\SendCloudClient\Models\Parcel $parcel)
  * @method PromiseInterface asyncCancelOrDeleteParcel(string $parcelId)
  * @method \HarmSmits\SendCloudClient\Models\Status cancelOrDeleteParcel(string $parcelId)
  * @method PromiseInterface asyncGetParcelReturnPortalUrl(string $parcelId)
@@ -39,9 +39,9 @@ use Psr\Http\Message\ResponseInterface;
  * @method PromiseInterface asyncGetBrand(int $brandId)
  * @method \HarmSmits\SendCloudClient\Models\Brand getBrand(int $brandId)
  * @method PromiseInterface asyncGetShippingMethods($sender_address = "all", ?int $servicePointId = null, ?bool $isReturn = null)
- * @method \HarmSmits\SendCloudClient\Models\ShippingMethodsResponse getShippingMethods($sender_address = "all", ?int $servicePointId = null, ?bool $isReturn = null)
+ * @method \HarmSmits\SendCloudClient\Models\ShippingMethod[] getShippingMethods($sender_address = "all", ?int $servicePointId = null, ?bool $isReturn = null)
  * @method PromiseInterface asyncGetShippingMethod(int $id, $sender_address = "all", ?int $servicePointId = null, ?bool $isReturn = null)
- * @method \HarmSmits\SendCloudClient\Models\ShippingMethodResponse getShippingMethod(int $id, $sender_address = "all", ?int $servicePointId = null, ?bool $isReturn = null)
+ * @method \HarmSmits\SendCloudClient\Models\ShippingMethod getShippingMethod(int $id, $sender_address = "all", ?int $servicePointId = null, ?bool $isReturn = null)
  * @method PromiseInterface asyncGetPdfLabel(string $parcelId)
  * @method \HarmSmits\SendCloudClient\Models\LabelDocument getPdfLabel(string $parcelId)
  * @method PromiseInterface asyncGetBulkPdfLabel(array $parcelIds)
@@ -120,54 +120,56 @@ class Client
             $method = substr($method, 0, -5);
         }
 
-        [$method, $url, $data, $response] = call_user_func_array([$this->request, $method], $args);
+        [$method, $url, $data, $response, $responseFilter] = call_user_func_array([$this->request, $method], $args);
 
         if ($async) {
-            return $this->handleAsyncRequest($method, $url, $data, $response);
+            return $this->handleAsyncRequest($method, $url, $data, $response, $responseFilter);
         } else {
-            return $this->handleRequest($method, $url, $data, $response);
+            return $this->handleRequest($method, $url, $data, $response, $responseFilter);
         }
     }
 
     /**
      * Handle a non-blocking request
      *
-     * @param $method
-     * @param $url
-     * @param $data
-     * @param $responseFormat
+     * @param               $method
+     * @param               $url
+     * @param               $data
+     * @param array         $responseFormat
+     * @param \Closure|null $filter
      *
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    private function handleAsyncRequest($method, $url, $data, array $responseFormat): PromiseInterface
+    private function handleAsyncRequest($method, $url, $data, array $responseFormat, ?\Closure $filter): PromiseInterface
     {
         return $this->client->requestAsync($method, $url, $data)
-            ->then(function (ResponseInterface $response) use (&$responseFormat) {
-                return $this->handleResponse($response, $responseFormat);
+            ->then(function (ResponseInterface $response) use (&$responseFormat, $filter) {
+                return $this->handleResponse($response, $responseFormat, $filter);
             });
     }
 
     /**
      * Handle a blocking request
      *
-     * @param       $method
-     * @param       $url
-     * @param       $data
-     * @param array $responseFormat
+     * @param               $method
+     * @param               $url
+     * @param               $data
+     * @param array         $responseFormat
+     * @param \Closure|null $filter
      *
      * @return array|mixed|\Psr\Http\Message\StreamInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private function handleRequest($method, $url, $data, array $responseFormat)
+    private function handleRequest($method, $url, $data, array $responseFormat, ?\Closure $filter)
     {
         try {
             $result = $this->client->request($method, $url, $data);
         } catch (RequestException $exception) {
             $response = $exception->getResponse();
-            return $this->handleResponse($response, $responseFormat);
+            return $this->handleResponse($response, $responseFormat, $filter);
         }
 
-        return $this->handleResponse($result, $responseFormat);
+        return $this->handleResponse($result, $responseFormat, $filter);
     }
 
     /**
@@ -175,13 +177,15 @@ class Client
      *
      * @param \Psr\Http\Message\ResponseInterface $response
      * @param array                               $responseFormat
+     * @param \Closure|null                       $filter
      *
      * @return array|mixed|\Psr\Http\Message\StreamInterface
      */
-    private function handleResponse(ResponseInterface &$response, array &$responseFormat)
+    private function handleResponse(ResponseInterface &$response, array &$responseFormat, ?\Closure $filter)
     {
         if ($responseFormat && isset($responseFormat[$response->getStatusCode()])) {
             $body = json_decode($response->getBody(), true);
+            $body = $filter ? $filter($body) : $body;
             return $this->populator->populate($responseFormat[$response->getStatusCode()], $body);
         } else {
             return $response->getBody();

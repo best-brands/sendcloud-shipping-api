@@ -1,10 +1,4 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
 namespace HarmSmits\SendCloudClient;
 
@@ -65,10 +59,16 @@ class Request
                                     '$type' => 'OBJ',
                                     '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Country',
                                 ),
+                            'label' =>
+                                array(
+                                    '$type' => 'OBJ',
+                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Label',
+                                ),
                         ),
                 ),
         ];
-        return [$method, $url, $data, $response];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -92,40 +92,48 @@ class Request
             200 =>
                 array(
                     '$type' => 'OBJ',
-                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelResponse',
-                    'parcel' =>
+                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Parcel',
+                    'address_divided' =>
                         array(
                             '$type' => 'OBJ',
-                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Parcel',
-                            'address_divided' =>
-                                array(
-                                    '$type' => 'OBJ',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelAddressDivided',
-                                ),
-                            'status' =>
-                                array(
-                                    '$type' => 'OBJ',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelStatus',
-                                ),
-                            'shipment' =>
-                                array(
-                                    '$type' => 'OBJ',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelShipment',
-                                ),
-                            'country' =>
-                                array(
-                                    '$type' => 'OBJ',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Country',
-                                ),
-                            'carrier' =>
-                                array(
-                                    '$type' => 'OBJ',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Carrier'
-                                ),
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelAddressDivided',
+                        ),
+                    'status' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelStatus',
+                        ),
+                    'shipment' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelShipment',
+                        ),
+                    'country' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Country',
+                        ),
+                    'carrier' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Carrier'
+                        ),
+                    'documents' =>
+                        array(
+                            '$type' => 'OBJ_ARRAY',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Document'
+                        ),
+                    'label' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Label',
                         ),
                 ),
         ];
-        return [$method, $url, $data, $response];
+        $responseFilter = function ($response) {
+            return $response["parcel"] ?? [];
+        };
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -159,41 +167,49 @@ class Request
             200 =>
                 array(
                     '$type' => 'OBJ',
-                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelResponse',
-                    'parcel' =>
+                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Parcel',
+                    'address_divided' =>
                         array(
                             '$type' => 'OBJ',
-                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Parcel',
-                            'address_divided' =>
-                                array(
-                                    '$type' => 'OBJ',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelAddressDivided',
-                                ),
-                            'status' =>
-                                array(
-                                    '$type' => 'OBJ',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelStatus',
-                                ),
-                            'shipment' =>
-                                array(
-                                    '$type' => 'OBJ',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelShipment',
-                                ),
-                            'country' =>
-                                array(
-                                    '$type' => 'OBJ',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Country',
-                                ),
-                            'carrier' =>
-                                array(
-                                    '$type' => 'OBJ',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Carrier'
-                                ),
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelAddressDivided',
+                        ),
+                    'status' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelStatus',
+                        ),
+                    'shipment' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelShipment',
+                        ),
+                    'country' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Country',
+                        ),
+                    'carrier' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Carrier'
+                        ),
+                    'documents' =>
+                        array(
+                            '$type' => 'OBJ_ARRAY',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Document'
+                        ),
+                    'label' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Label',
                         ),
                 ),
         );
         $data = array_map("array_filter", $data);
-        return [$method, $url, $data, $response];
+        $responseFilter = function ($response) {
+            return $response["parcel"] ?? [];
+        };
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -218,42 +234,50 @@ class Request
         $response = array(
             200 =>
                 array(
-                    '$type' => 'OBJ',
-                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelsResponse',
-                    'parcels' =>
+                    '$type' => 'OBJ_ARRAY',
+                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Parcel',
+                    'address_divided' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelAddressDivided',
+                        ),
+                    'status' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelStatus',
+                        ),
+                    'shipment' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelShipment',
+                        ),
+                    'country' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Country',
+                        ),
+                    'carrier' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Carrier'
+                        ),
+                    'documents' =>
                         array(
                             '$type' => 'OBJ_ARRAY',
-                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Parcel',
-                            'address_divided' =>
-                                array(
-                                    '$type' => 'OBJ',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelAddressDivided',
-                                ),
-                            'status' =>
-                                array(
-                                    '$type' => 'OBJ',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelStatus',
-                                ),
-                            'shipment' =>
-                                array(
-                                    '$type' => 'OBJ',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelShipment',
-                                ),
-                            'country' =>
-                                array(
-                                    '$type' => 'OBJ',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Country',
-                                ),
-                            'carrier' =>
-                                array(
-                                    '$type' => 'OBJ',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Carrier'
-                                ),
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Document'
+                        ),
+                    'label' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Label',
                         ),
                 ),
         );
         $data = array_map("array_filter", $data);
-        return [$method, $url, $data, $response];
+        $responseFilter = function ($response) {
+            return $response["parcels"] ?? [];
+        };
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -279,40 +303,48 @@ class Request
             200 =>
                 array(
                     '$type' => 'OBJ',
-                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelResponse',
-                    'parcel' =>
+                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Parcel',
+                    'address_divided' =>
                         array(
                             '$type' => 'OBJ',
-                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Parcel',
-                            'address_divided' =>
-                                array(
-                                    '$type' => 'OBJ',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelAddressDivided',
-                                ),
-                            'status' =>
-                                array(
-                                    '$type' => 'OBJ',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelStatus',
-                                ),
-                            'shipment' =>
-                                array(
-                                    '$type' => 'OBJ',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelShipment',
-                                ),
-                            'country' =>
-                                array(
-                                    '$type' => 'OBJ',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Country',
-                                ),
-                            'carrier' =>
-                                array(
-                                    '$type' => 'OBJ',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Carrier'
-                                ),
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelAddressDivided',
+                        ),
+                    'status' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelStatus',
+                        ),
+                    'shipment' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelShipment',
+                        ),
+                    'country' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Country',
+                        ),
+                    'carrier' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Carrier'
+                        ),
+                    'documents' =>
+                        array(
+                            '$type' => 'OBJ_ARRAY',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Document'
+                        ),
+                    'label' =>
+                        array(
+                            '$type' => 'OBJ',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Label',
                         ),
                 ),
         ];
-        return [$method, $url, $data, $response];
+        $responseFilter = function ($response) {
+            return $response["parcel"] ?? [];
+        };
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -358,7 +390,8 @@ class Request
                     '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Status',
                 ),
         ];
-        return [$method, $url, $data, $response];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -386,7 +419,8 @@ class Request
                     '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Url',
                 ),
         ];
-        return [$method, $url, $data, $response];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -421,7 +455,8 @@ class Request
             "dpi" => $dpi,
         );
         $response = [];
-        return [$method, $url, $data, $response];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -445,7 +480,8 @@ class Request
                     '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Status',
                 ),
         ];
-        return [$method, $url, $data, $response];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -498,7 +534,8 @@ class Request
                         ),
                 ),
         ];
-        return [$method, $url, $data, $response];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -546,7 +583,8 @@ class Request
                         ),
                 ),
         ];
-        return [$method, $url, $data, $response];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -587,7 +625,8 @@ class Request
                         ),
                 ),
         ];
-        return [$method, $url, $data, $response];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -623,7 +662,8 @@ class Request
                         ),
                 ),
         ];
-        return [$method, $url, $data, $response];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -657,21 +697,19 @@ class Request
         $response = [
             200 =>
                 array(
-                    '$type' => 'OBJ',
-                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ShippingMethodsResponse',
-                    'brands' =>
+                    '$type' => 'OBJ_ARRAY',
+                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ShippingMethod',
+                    'countries' =>
                         array(
                             '$type' => 'OBJ_ARRAY',
-                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ShippingMethod',
-                            'countries' =>
-                                array(
-                                    '$type' => 'OBJ_ARRAY',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ShippingMethodCountry',
-                                ),
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ShippingMethodCountry',
                         ),
                 ),
         ];
-        return [$method, $url, $data, $response];
+        $responseFilter = function ($response) {
+            return $response["shipping_methods"] ?? [];
+        };
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -713,20 +751,18 @@ class Request
             200 =>
                 array(
                     '$type' => 'OBJ',
-                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ShippingMethodResponse',
-                    'brands' =>
+                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ShippingMethod',
+                    'countries' =>
                         array(
-                            '$type' => 'OBJ',
-                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ShippingMethod',
-                            'countries' =>
-                                array(
-                                    '$type' => 'OBJ_ARRAY',
-                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ShippingMethodCountry',
-                                ),
+                            '$type' => 'OBJ_ARRAY',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ShippingMethodCountry',
                         ),
                 ),
         ];
-        return [$method, $url, $data, $response];
+        $responseFilter = function ($response) {
+            return $response["shipping_method"] ?? [];
+        };
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -757,7 +793,8 @@ class Request
                         )
                 ),
         ];
-        return [$method, $url, $data, $response];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -791,7 +828,8 @@ class Request
                         )
                 ),
         ];
-        return [$method, $url, $data, $response];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -808,7 +846,8 @@ class Request
             "Accept" => "application/json, text/plain, */*"
         );
         $response = [];
-        return [$method, $url, $data, $response];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -825,7 +864,8 @@ class Request
             "Accept" => "application/json, text/plain, */*"
         );
         $response = [];
-        return [$method, $url, $data, $response];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -855,7 +895,8 @@ class Request
             "items" => $items
         ]);
         $response = [];
-        return [$method, $url, $data, $response];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -870,7 +911,8 @@ class Request
             "Accept" => "application/json, text/plain, */*"
         );
         $response = [];
-        return [$method, $url, $data, $response];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -888,7 +930,8 @@ class Request
             "Accept" => "application/json, text/plain, */*"
         );
         $response = [];
-        return [$method, $url, $data, $response];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
     }
 
     /**
@@ -903,6 +946,7 @@ class Request
             "Accept" => "application/json, text/plain, */*"
         );
         $response = [];
-        return [$method, $url, $data, $response];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
     }
 }

@@ -31,7 +31,7 @@ class ReducedParcel extends AModel
 
     protected float $weight = 0.0;
 
-    protected array $label = [];
+    protected Label $label;
 
     protected ?ParcelStatus $status = null;
 
@@ -44,6 +44,7 @@ class ReducedParcel extends AModel
     public function __construct()
     {
         $this->dateCreated = new DateTime();
+        $this->label = new Label();
     }
 
     public function setId(int $id): self
@@ -186,13 +187,13 @@ class ReducedParcel extends AModel
         return $this->weight;
     }
 
-    public function setLabel(array $label): self
+    public function setLabel(Label $label): self
     {
         $this->label = $label;
         return $this;
     }
 
-    public function getLabel(): array
+    public function getLabel(): Label
     {
         return $this->label;
     }
@@ -256,7 +257,7 @@ class ReducedParcel extends AModel
             "date_created" => $this->getDateCreated()->format(DATE_ISO8601),
             "tracking_number" => $this->getTrackingNumber(),
             "weight" => $this->getWeight(),
-            "label" => $this->getLabel(),
+            "label" => $this->getLabel()->__toArray(),
             "status" => $this->getStatus()->__toArray(),
             "data" => $this->getData(),
             "country" => $this->getCountry()->__toArray(),

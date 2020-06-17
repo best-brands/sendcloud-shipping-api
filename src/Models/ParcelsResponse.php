@@ -15,7 +15,7 @@ final class ParcelsResponse extends APagination
     }
 
     /**
-     * @return \HarmSmits\SendCloudClient\Models\ReducedParcel[]
+     * @return \HarmSmits\SendCloudClient\Models\Parcel[]
      */
     public function getParcels(): array
     {

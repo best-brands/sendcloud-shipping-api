@@ -38,7 +38,7 @@ class Request
                     'parcels' =>
                         array(
                             '$type' => 'OBJ_ARRAY',
-                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ReducedParcel',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Parcel',
                             'address_divided' =>
                                 array(
                                     '$type' => 'OBJ',
@@ -58,6 +58,16 @@ class Request
                                 array(
                                     '$type' => 'OBJ',
                                     '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Country',
+                                ),
+                            'carrier' =>
+                                array(
+                                    '$type' => 'OBJ',
+                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Carrier'
+                                ),
+                            'documents' =>
+                                array(
+                                    '$type' => 'OBJ_ARRAY',
+                                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Document'
                                 ),
                             'label' =>
                                 array(

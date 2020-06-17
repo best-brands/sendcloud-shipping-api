@@ -6,60 +6,59 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Promise\PromiseInterface;
-use HarmSmits\SendCloudClient\Exception\NotFoundException;
 use HarmSmits\SendCloudClient\Exception\RateLimitException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Client
- * @method PromiseInterface asyncGetParcels(?string $cursor = null, array $search = [])
+ * @method PromiseInterface getParcelsAsync(?string $cursor = null, array $search = [])
  * @method \HarmSmits\SendCloudClient\Models\ParcelsResponse getParcels(?string $cursor = null, array $search = [])
- * @method PromiseInterface asyncGetParcel(int $id)
+ * @method PromiseInterface getParcelAsync(int $id)
  * @method \HarmSmits\SendCloudClient\Models\Parcel getParcel(int $id)
- * @method PromiseInterface asyncCreateParcel(\HarmSmits\SendCloudClient\Models\NewParcel $parcel)
+ * @method PromiseInterface createParcelAsync(\HarmSmits\SendCloudClient\Models\NewParcel $parcel)
  * @method \HarmSmits\SendCloudClient\Models\Parcel createParcel(\HarmSmits\SendCloudClient\Models\NewParcel $parcel)
- * @method PromiseInterface asyncCreateParcels(array $parcels)
+ * @method PromiseInterface createParcelsAsync(array $parcels)
  * @method \HarmSmits\SendCloudClient\Models\ParcelsResponse createParcels(array $parcels)
- * @method PromiseInterface asyncUpdateParcel(\HarmSmits\SendCloudClient\Models\Parcel $parcel)
+ * @method PromiseInterface updateParcelAsync(\HarmSmits\SendCloudClient\Models\Parcel $parcel)
  * @method \HarmSmits\SendCloudClient\Models\Parcel updateParcel(\HarmSmits\SendCloudClient\Models\Parcel $parcel)
- * @method PromiseInterface asyncCancelOrDeleteParcel(string $parcelId)
+ * @method PromiseInterface cancelOrDeleteParcelAsync(string $parcelId)
  * @method \HarmSmits\SendCloudClient\Models\Status cancelOrDeleteParcel(string $parcelId)
- * @method PromiseInterface asyncGetParcelReturnPortalUrl(string $parcelId)
+ * @method PromiseInterface getParcelReturnPortalUrlAsync(string $parcelId)
  * @method \HarmSmits\SendCloudClient\Models\Url getParcelReturnPortalUrl(string $parcelId)
- * @method PromiseInterface asyncGetParcelDocuments(string $parcelId, string $documentType, string $format = "application/pdf", int $dpi = 72)
+ * @method PromiseInterface getParcelDocumentsAsync(string $parcelId, string $documentType, string $format = "application/pdf", int $dpi = 72)
  * @method string getParcelDocuments(string $parcelId, string $documentType, string $format = "application/pdf", int $dpi = 72)
- * @method PromiseInterface asyncGetParcelStatuses()
+ * @method PromiseInterface getParcelStatusesAsync()
  * @method \HarmSmits\SendCloudClient\Models\Status[] getParcelStatuses()
- * @method PromiseInterface asyncGetReturns(?string $cursor = null)
+ * @method PromiseInterface getReturnsAsync(?string $cursor = null)
  * @method \HarmSmits\SendCloudClient\Models\ReturnsResponse getReturns(?string $cursor = null)
- * @method PromiseInterface asyncGetReturn(string $returnId)
+ * @method PromiseInterface getReturnAsync(string $returnId)
  * @method \HarmSmits\SendCloudClient\Models\ReturnItem getReturn(string $returnId)
- * @method PromiseInterface asyncGetBrands(?string $cursor = null)
+ * @method PromiseInterface getBrandsAsync(?string $cursor = null)
  * @method \HarmSmits\SendCloudClient\Models\BrandsResponse getBrands(?string $cursor = null)
- * @method PromiseInterface asyncGetBrand(int $brandId)
+ * @method PromiseInterface getBrandAsync(int $brandId)
  * @method \HarmSmits\SendCloudClient\Models\Brand getBrand(int $brandId)
- * @method PromiseInterface asyncGetShippingMethods($sender_address = "all", ?int $servicePointId = null, ?bool $isReturn = null)
+ * @method PromiseInterface getShippingMethodsAsync($sender_address = "all", ?int $servicePointId = null, ?bool $isReturn = null)
  * @method \HarmSmits\SendCloudClient\Models\ShippingMethod[] getShippingMethods($sender_address = "all", ?int $servicePointId = null, ?bool $isReturn = null)
- * @method PromiseInterface asyncGetShippingMethod(int $id, $sender_address = "all", ?int $servicePointId = null, ?bool $isReturn = null)
+ * @method PromiseInterface getShippingMethodAsync(int $id, $sender_address = "all", ?int $servicePointId = null, ?bool $isReturn = null)
  * @method \HarmSmits\SendCloudClient\Models\ShippingMethod getShippingMethod(int $id, $sender_address = "all", ?int $servicePointId = null, ?bool $isReturn = null)
- * @method PromiseInterface asyncGetPdfLabel(string $parcelId)
+ * @method PromiseInterface getPdfLabelAsync(string $parcelId)
  * @method \HarmSmits\SendCloudClient\Models\LabelDocument getPdfLabel(string $parcelId)
- * @method PromiseInterface asyncGetBulkPdfLabel(array $parcelIds)
+ * @method PromiseInterface getBulkPdfLabelAsync(array $parcelIds)
  * @method \HarmSmits\SendCloudClient\Models\LabelDocument[] getBulkPdfLabel(array $parcelIds)
- * @method PromiseInterface asyncGetUser()
+ * @method PromiseInterface getUserAsync()
  * @method \HarmSmits\SendCloudClient\Models\User getUser()
- * @method PromiseInterface asyncGetInvoices()
+ * @method PromiseInterface getInvoicesAsync()
  * @method \HarmSmits\SendCloudClient\Models\Invoice[] getInvoices();
- * @method PromiseInterface asyncGetInvoice(int $invoiceId, ?string $type = null, ?string $ref = null, ?bool $isPayed = null, ?array $items = null)
+ * @method PromiseInterface getInvoiceAsync(int $invoiceId, ?string $type = null, ?string $ref = null, ?bool $isPayed = null, ?array $items = null)
  * @method \HarmSmits\SendCloudClient\Models\Invoice getInvoice(int $invoiceId, ?string $type = null, ?string $ref = null, ?bool $isPayed = null, ?array $items = null)
- * @method PromiseInterface asyncGetSenderAddresses()
+ * @method PromiseInterface getSenderAddressesAsync()
  * @method \HarmSmits\SendCloudClient\Models\SenderAddress[] getSenderAddresses()
- * @method PromiseInterface asyncGetSenderAddress(int $senderId)
+ * @method PromiseInterface getSenderAddressAsync(int $senderId)
  * @method \HarmSmits\SendCloudClient\Models\SenderAddress getSenderAddress(int $senderId);
- * @method PromiseInterface asyncGetIntegrations()
+ * @method PromiseInterface getIntegrationsAsync()
  * @method \HarmSmits\SendCloudClient\Models\Integration[] getIntegrations()
- * @method PromiseInterface asyncUpdateIntegration()
+ * @method PromiseInterface updateIntegrationAsync()
  * @method \HarmSmits\SendCloudClient\Models\Integration updateIntegration(\HarmSmits\SendCloudClient\Models\Integration $integration)
  *
  * @package HarmSmits\SendCloudClient
@@ -183,11 +182,13 @@ class Client
      * @param \Closure|null                       $filter
      *
      * @return array|mixed|\Psr\Http\Message\StreamInterface
+     * @throws \HarmSmits\SendCloudClient\Exception\RequestException
      */
     private function handleResponse(ResponseInterface &$response, array &$responseFormat, ?\Closure $filter)
     {
         if ($responseFormat && isset($responseFormat[$response->getStatusCode()])) {
             $body = json_decode($response->getBody(), true);
+            print_r($body);
             $body = $filter ? $filter($body) : $body;
             return $this->populator->populate($responseFormat[$response->getStatusCode()], $body);
         } elseif ($response->getStatusCode() !== 200) {

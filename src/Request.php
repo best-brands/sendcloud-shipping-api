@@ -2,6 +2,7 @@
 
 namespace HarmSmits\SendCloudClient;
 
+use HarmSmits\SendCloudClient\Models\Integration;
 use HarmSmits\SendCloudClient\Models\NewParcel;
 use HarmSmits\SendCloudClient\Models\Parcel;
 
@@ -166,12 +167,11 @@ class Request
         $data = [];
         $url = "https://panel.sendcloud.sc/api/v2/parcels";
         $method = "post";
-        $data["body"] = [
+        $data["json"] = [
             "parcel" => $parcel->__toArray()
         ];
         $data["headers"] = array(
-            "Accept" => "application/json, text/plain, */*",
-            "Content-Type" => "application/json",
+            "Accept" => "application/json, text/plain, */*"
         );
         $response = array(
             200 =>
@@ -234,12 +234,11 @@ class Request
         $data = [];
         $url = "https://panel.sendcloud.sc/api/v2/parcels";
         $method = "post";
-        $data["body"] = [
+        $data["json"] = [
             "parcel" => array_map(fn(NewParcel $parcel) => $parcel->__toArray(), $parcels)
         ];
         $data["headers"] = array(
-            "Accept" => "application/json, text/plain, */*",
-            "Content-Type" => "application/json",
+            "Accept" => "application/json, text/plain, */*"
         );
         $response = array(
             200 =>
@@ -305,10 +304,9 @@ class Request
         $url = "https://panel.sendcloud.sc/api/v2/parcels";
         $method = "put";
         $data["headers"] = array(
-            "Accept" => "application/json, text/plain, */*",
-            "Content-Type" => "application/json",
+            "Accept" => "application/json, text/plain, */*"
         );
-        $data["body"] = $parcel->__toArray();
+        $data["json"] = $parcel->__toArray();
         $response = [
             200 =>
                 array(
@@ -375,8 +373,7 @@ class Request
         $method = "post";
         $url = str_replace("{id}", $parcelId, $url);
         $data["headers"] = array(
-            "Accept" => "application/json, text/plain, */*",
-            "Content-Type" => "application/json",
+            "Accept" => "application/json, text/plain, */*"
         );
         $response = [
             200 =>
@@ -419,8 +416,7 @@ class Request
         $method = "get";
         $url = str_replace("{id}", $parcelId, $url);
         $data["headers"] = array(
-            "Accept" => "application/json, text/plain, */*",
-            "Content-Type" => "application/json",
+            "Accept" => "application/json, text/plain, */*"
         );
         $response = [
             200 =>
@@ -458,8 +454,7 @@ class Request
         $url = str_replace("{id}", $parcelId, $url);
         $url = str_replace("{type}", $documentType, $url);
         $data["headers"] = array(
-            "Accept" => $format,
-            "Content-Type" => "application/json",
+            "Accept" => $format
         );
         $data["query"] = array(
             "dpi" => $dpi,
@@ -480,8 +475,7 @@ class Request
         $url = "https://panel.sendcloud.sc/api/v2/parcels/statuses";
         $method = "get";
         $data["headers"] = array(
-            "Accept" => "application/json, text/plain, */*",
-            "Content-Type" => "application/json",
+            "Accept" => "application/json, text/plain, */*"
         );
         $response = [
             200 =>
@@ -820,12 +814,11 @@ class Request
         $url = "https://panel.sendcloud.sc/api/v2/labels";
         $method = "post";
         $data["headers"] = array(
-            "Accept" => "application/json, text/plain, */*",
-            "Content-Type" => "application/json",
+            "Accept" => "application/json, text/plain, */*"
         );
-        $data["body"] = json_encode([
+        $data["json"] = [
             "parcels" => $parcelIds
-        ]);
+        ];
         $response = [
             200 =>
                 array(
@@ -1010,7 +1003,39 @@ class Request
         $data["headers"] = array(
             "Accept" => "application/json, text/plain, */*"
         );
-        $response = [];
+        $response = [
+            200 =>
+                array(
+                    '$type' => 'OBJ_ARRAY',
+                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Integration',
+                ),
+        ];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
+    }
+
+    /**
+     * @param Integration $integration
+     *
+     * @return array
+     */
+    public function updateIntegration(Integration $integration)
+    {
+        $data = [];
+        $url = "https://panel.sendcloud.sc/api/v2/integrations/{id}";
+        $method = "put";
+        $url = str_replace("{id}", $integration->getId(), $url);
+        $data["headers"] = array(
+            "Accept" => "application/json, text/plain, */*"
+        );
+        $data["json"] = $integration->__toArray();
+        $response = [
+            200 =>
+                array(
+                    '$type' => 'OBJ',
+                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Integration',
+                ),
+        ];
         $responseFilter = null;
         return [$method, $url, $data, $response, $responseFilter];
     }

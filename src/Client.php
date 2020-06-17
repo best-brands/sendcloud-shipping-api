@@ -58,7 +58,9 @@ use Psr\Http\Message\ResponseInterface;
  * @method PromiseInterface asyncGetSenderAddress(int $senderId)
  * @method \HarmSmits\SendCloudClient\Models\SenderAddress getSenderAddress(int $senderId);
  * @method PromiseInterface asyncGetIntegrations()
- * @method array getIntegrations()
+ * @method \HarmSmits\SendCloudClient\Models\Integration[] getIntegrations()
+ * @method PromiseInterface asyncUpdateIntegration()
+ * @method \HarmSmits\SendCloudClient\Models\Integration updateIntegration(\HarmSmits\SendCloudClient\Models\Integration $integration)
  *
  * @package HarmSmits\SendCloudClient
  */

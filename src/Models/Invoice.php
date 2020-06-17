@@ -31,7 +31,7 @@ class Invoice extends AModel
     public function setDate($date): self
     {
         if (is_string($date))
-            $date = DateTime::createFromFormat("m-d-Y H:i:s", $date);
+            $date = DateTime::createFromFormat("d-m-Y H:i:s", $date);
 
         if ($date instanceof DateTime) {
             $this->date = $date;

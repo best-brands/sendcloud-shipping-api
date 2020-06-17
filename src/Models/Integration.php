@@ -31,8 +31,8 @@ class Integration extends AModel
 
     public function __construct()
     {
-        $this->lastFetch = date_create(0);
-        $this->lastUpdatedAt = date_create(0);
+        $this->lastFetch = new DateTime();
+        $this->lastUpdatedAt = new DateTime();
     }
 
     public function setId(int $id): self
@@ -46,7 +46,7 @@ class Integration extends AModel
         return $this->id;
     }
 
-    public function setShopName(string $shopName): string
+    public function setShopName(string $shopName): self
     {
         $this->shopName = $shopName;
         return $this;
@@ -57,7 +57,7 @@ class Integration extends AModel
         return $this->shopName;
     }
 
-    public function setShopUrl(string $shopUrl): string
+    public function setShopUrl(string $shopUrl): self
     {
         $this->shopUrl = $shopUrl;
         return $this;
@@ -68,7 +68,7 @@ class Integration extends AModel
         return $this->shopUrl;
     }
 
-    public function setSystem(string $system): string
+    public function setSystem(string $system): self
     {
         $this->system = $system;
         return $this;
@@ -93,7 +93,7 @@ class Integration extends AModel
     public function setLastFetch($lastFetch): self
     {
         if (is_string($lastFetch))
-            $lastFetch = DateTime::createFromFormat("d-m-Y H:i:s", $lastFetch);
+            $lastFetch = DateTime::createFromFormat("Y-m-d\TH:i:s.uT", $lastFetch);
 
         if ($lastFetch instanceof DateTime) {
             $this->lastFetch = $lastFetch;
@@ -112,7 +112,7 @@ class Integration extends AModel
     public function setLastUpdatedAt($lastUpdatedAt): self
     {
         if (is_string($lastUpdatedAt))
-            $lastUpdatedAt = DateTime::createFromFormat("d-m-Y H:i:s", $lastUpdatedAt);
+            $lastUpdatedAt = DateTime::createFromFormat("Y-m-d\TH:i:s.uT", $lastUpdatedAt);
 
         if ($lastUpdatedAt instanceof DateTime) {
             $this->lastUpdatedAt = $lastUpdatedAt;
@@ -169,7 +169,7 @@ class Integration extends AModel
         return $this->webhookActive;
     }
 
-    public function setWebhookUrl(string $webhookUrl): string
+    public function setWebhookUrl(string $webhookUrl): self
     {
         $this->webhookUrl = $webhookUrl;
         return $this;

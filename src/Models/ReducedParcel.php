@@ -149,7 +149,7 @@ class ReducedParcel extends AModel
     public function setDateCreated($date): self
     {
         if (is_string($date))
-            $date = DateTime::createFromFormat("m-d-Y H:i:s", $date);
+            $date = DateTime::createFromFormat("d-m-Y H:i:s", $date);
 
         if ($date instanceof DateTime) {
             $this->dateCreated = $date;
@@ -254,7 +254,7 @@ class ReducedParcel extends AModel
             "postal_code" => $this->getPostalCode(),
             "telephone" => $this->getTelephone(),
             "email" => $this->getEmail(),
-            "date_created" => $this->getDateCreated()->format(DATE_ISO8601),
+            "date_created" => $this->getDateCreated(),
             "tracking_number" => $this->getTrackingNumber(),
             "weight" => $this->getWeight(),
             "label" => $this->getLabel()->__toArray(),

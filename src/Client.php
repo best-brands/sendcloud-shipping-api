@@ -48,15 +48,15 @@ use Psr\Http\Message\ResponseInterface;
  * @method PromiseInterface asyncGetBulkPdfLabel(array $parcelIds)
  * @method \HarmSmits\SendCloudClient\Models\LabelDocument[] getBulkPdfLabel(array $parcelIds)
  * @method PromiseInterface asyncGetUser()
- * @method array getUser()
+ * @method \HarmSmits\SendCloudClient\Models\User getUser()
  * @method PromiseInterface asyncGetInvoices()
- * @method array getInvoices();
+ * @method \HarmSmits\SendCloudClient\Models\Invoice[] getInvoices();
  * @method PromiseInterface asyncGetInvoice(int $invoiceId, ?string $type = null, ?string $ref = null, ?bool $isPayed = null, ?array $items = null)
- * @method array getInvoice(int $invoiceId, ?string $type = null, ?string $ref = null, ?bool $isPayed = null, ?array $items = null)
+ * @method \HarmSmits\SendCloudClient\Models\Invoice getInvoice(int $invoiceId, ?string $type = null, ?string $ref = null, ?bool $isPayed = null, ?array $items = null)
  * @method PromiseInterface asyncGetSenderAddresses()
- * @method array getSenderAddresses()
+ * @method \HarmSmits\SendCloudClient\Models\SenderAddress[] getSenderAddresses()
  * @method PromiseInterface asyncGetSenderAddress(int $senderId)
- * @method array getSenderAddress(int $senderId);
+ * @method \HarmSmits\SendCloudClient\Models\SenderAddress getSenderAddress(int $senderId);
  * @method PromiseInterface asyncGetIntegrations()
  * @method array getIntegrations()
  *

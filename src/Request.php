@@ -855,8 +855,26 @@ class Request
         $data["headers"] = array(
             "Accept" => "application/json, text/plain, */*"
         );
-        $response = [];
-        $responseFilter = null;
+        $response = [
+            200 =>
+                array(
+                    '$type' => 'OBJ',
+                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\User',
+                    'invoices' =>
+                        array(
+                            '$type' => 'OBJ_ARRAY',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Invoice',
+                        ),
+                    'modules' =>
+                        array(
+                            '$type' => 'OBJ_ARRAY',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Module',
+                        ),
+                ),
+        ];
+        $responseFilter = function ($response) {
+            return $response["user"] ?? [];
+        };
         return [$method, $url, $data, $response, $responseFilter];
     }
 
@@ -873,8 +891,16 @@ class Request
         $data["headers"] = array(
             "Accept" => "application/json, text/plain, */*"
         );
-        $response = [];
-        $responseFilter = null;
+        $response = [
+            200 =>
+                array(
+                    '$type' => 'OBJ_ARRAY',
+                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Invoice',
+                ),
+        ];
+        $responseFilter = function ($response) {
+            return $response["invoices"] ?? [];
+        };
         return [$method, $url, $data, $response, $responseFilter];
     }
 
@@ -904,8 +930,21 @@ class Request
             "isPayed" => $isPayed,
             "items" => $items
         ]);
-        $response = [];
-        $responseFilter = null;
+        $response = [
+            200 =>
+                array(
+                    '$type' => 'OBJ',
+                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Invoice',
+                    'items' =>
+                        array(
+                            'OBJ_ARRAY',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\InvoiceItem',
+                        ),
+                ),
+        ];
+        $responseFilter = function ($response) {
+            return $response["invoice"] ?? [];
+        };
         return [$method, $url, $data, $response, $responseFilter];
     }
 
@@ -920,8 +959,16 @@ class Request
         $data["headers"] = array(
             "Accept" => "application/json, text/plain, */*"
         );
-        $response = [];
-        $responseFilter = null;
+        $response = [
+            200 =>
+                array(
+                    '$type' => 'OBJ_ARRAY',
+                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\SenderAddress',
+                ),
+        ];
+        $responseFilter = function ($response) {
+            return $response["sender_addresses"] ?? [];
+        };
         return [$method, $url, $data, $response, $responseFilter];
     }
 
@@ -939,8 +986,16 @@ class Request
         $data["headers"] = array(
             "Accept" => "application/json, text/plain, */*"
         );
-        $response = [];
-        $responseFilter = null;
+        $response = [
+            200 =>
+                array(
+                    '$type' => 'OBJ',
+                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\SenderAddress',
+                ),
+        ];
+        $responseFilter = function ($response) {
+            return $response["sender_address"] ?? [];
+        };
         return [$method, $url, $data, $response, $responseFilter];
     }
 

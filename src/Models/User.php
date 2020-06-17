@@ -109,6 +109,9 @@ class User extends AModel
         return $this;
     }
 
+    /**
+     * @return Invoice[]
+     */
     public function getInvoices(): array
     {
         return $this->invoices;
@@ -140,7 +143,7 @@ class User extends AModel
     public function setRegistered($registered): self
     {
         if (is_string($registered))
-            $registered = DateTime::createFromFormat("m-d-Y H:i:s", $registered);
+            $registered = DateTime::createFromFormat("Y-m-d H:i:s", $registered);
 
         if ($registered instanceof DateTime) {
             $this->registered = $registered;

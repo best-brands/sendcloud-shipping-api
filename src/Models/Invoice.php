@@ -78,6 +78,9 @@ class Invoice extends AModel
         return $this;
     }
 
+    /**
+     * @return InvoiceItem[]
+     */
     public function getItems(): array
     {
         return $this->items;

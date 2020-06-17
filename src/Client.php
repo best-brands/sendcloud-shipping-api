@@ -6,6 +6,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Promise\PromiseInterface;
+use HarmSmits\SendCloudClient\Exception\NotFoundException;
 use HarmSmits\SendCloudClient\Exception\RateLimitException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -187,6 +188,8 @@ class Client
             $body = json_decode($response->getBody(), true);
             $body = $filter ? $filter($body) : $body;
             return $this->populator->populate($responseFormat[$response->getStatusCode()], $body);
+        } elseif ($response->getStatusCode() !== 200) {
+            throw new \HarmSmits\SendCloudClient\Exception\RequestException();
         } else {
             return $response->getBody();
         }

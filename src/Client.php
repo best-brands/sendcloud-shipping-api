@@ -58,8 +58,14 @@ use Psr\Http\Message\ResponseInterface;
  * @method \HarmSmits\SendCloudClient\Models\SenderAddress getSenderAddress(int $senderId);
  * @method PromiseInterface getIntegrationsAsync()
  * @method \HarmSmits\SendCloudClient\Models\Integration[] getIntegrations()
- * @method PromiseInterface updateIntegrationAsync()
+ * @method PromiseInterface updateIntegrationAsync(\HarmSmits\SendCloudClient\Models\Integration $integration)
  * @method \HarmSmits\SendCloudClient\Models\Integration updateIntegration(\HarmSmits\SendCloudClient\Models\Integration $integration)
+ * @method PromiseInterface getShipmentsAsync(int $integrationId, ?string $cursor = null, ?array $search = null)
+ * @method \HarmSmits\SendCloudClient\Models\ShipmentsResponse getShipments(int $integrationId, ?string $cursor = null, ?array $search = null)
+ * @method PromiseInterface insertShipmentAsync(int $integrationId, array $shipments)
+ * @method \HarmSmits\SendCloudClient\Models\ShipmentResponse insertShipment(int $integrationId, array $shipments)
+ * @method PromiseInterface deleteShipmentAsync(int $integrationId, string $shipmentUuid)
+ * @method \HarmSmits\SendCloudClient\Models\ShipmentDeleteResponse deleteShipment(int $integrationId, string $shipmentUuid)
  *
  * @package HarmSmits\SendCloudClient
  */

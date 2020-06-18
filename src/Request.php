@@ -5,6 +5,7 @@ namespace HarmSmits\SendCloudClient;
 use HarmSmits\SendCloudClient\Models\Integration;
 use HarmSmits\SendCloudClient\Models\NewParcel;
 use HarmSmits\SendCloudClient\Models\Parcel;
+use HarmSmits\SendCloudClient\Models\Shipment;
 
 /**
  * Class Request
@@ -995,7 +996,7 @@ class Request
     /**
      * @return array
      */
-    public function getIntegrations()
+    public function getIntegrations(): array
     {
         $data = [];
         $url = "https://panel.sendcloud.sc/api/v2/integrations";
@@ -1019,7 +1020,7 @@ class Request
      *
      * @return array
      */
-    public function updateIntegration(Integration $integration)
+    public function updateIntegration(Integration $integration): array
     {
         $data = [];
         $url = "https://panel.sendcloud.sc/api/v2/integrations/{id}";
@@ -1038,5 +1039,97 @@ class Request
         ];
         $responseFilter = null;
         return [$method, $url, $data, $response, $responseFilter];
+    }
+
+    /**
+     * @param int         $integrationId
+     * @param string|null $cursor
+     * @param array|null  $search
+     *
+     * @return array
+     */
+    public function getShipments(int $integrationId, ?string $cursor = null, ?array $search = null): array
+    {
+        $data = [];
+        $url = "https://panel.sendcloud.sc/api/v2/integrations/{id}/shipments";
+        $method = "get";
+        $url = str_replace("{id}", $integrationId, $url);
+        $data["headers"] = array(
+            "Accept" => "application/json, text/plain, */*"
+        );
+        $data["query"] = array_merge(["cursor" => $cursor], array_filter($search));
+        $response = [
+            200 =>
+                array(
+                    '$type' => 'OBJ',
+                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ShipmentsResponse',
+                    'results' =>
+                        array(
+                            '$type' => 'OBJ_ARRAY',
+                            '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Shipment',
+                        )
+                ),
+        ];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
+    }
+
+    /**
+     * @param int   $integrationId
+     * @param array $shipments
+     *
+     * @return array
+     */
+    public function insertShipment(int $integrationId, array $shipments): array
+    {
+        $data = [];
+        $url = "https://panel.sendcloud.sc/api/v2/integrations/{id}/shipments";
+        $method = "post";
+        $url = str_replace("{id}", $integrationId, $url);
+        $data["headers"] = array(
+            "Accept" => "application/json, text/plain, */*"
+        );
+        $data["json"] = array_map(function (Shipment $item) {
+            return $item->__toArray();
+        }, $shipments);
+        $response = [
+            200 =>
+                array(
+                    '$type' => 'OBJ',
+                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ShipmentResponse',
+                ),
+        ];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
+    }
+
+    /**
+     * @param int    $integrationId
+     * @param string $shipmentUuid
+     *
+     * @return array
+     */
+    public function deleteShipment(int $integrationId, string $shipmentUuid): array
+    {
+        $data = [];
+        $url = "https://panel.sendcloud.sc/api/v2/integrations/{id}/shipments/delete";
+        $method = "post";
+        $url = str_replace("{id}", $integrationId, $url);
+        $data["headers"] = array(
+            "Accept" => "application/json, text/plain, */*"
+        );
+        $data["json"] = array(
+            "shipment_uuid" => $shipmentUuid
+        );
+        $response = [
+            200 =>
+                array(
+                    '$type' => 'OBJ',
+                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ShipmentDeleteResponse',
+                ),
+        ];
+        $responseFilter = null;
+        return [$method, $url, $data, $response, $responseFilter];
+
     }
 }

@@ -120,7 +120,7 @@ class Client
      * @param array  $args
      *
      * @return array|\GuzzleHttp\Promise\PromiseInterface|mixed|\Psr\Http\Message\StreamInterface
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException|\HarmSmits\SendCloudClient\Exception\RequestException
      */
     public function __call(string $method, array $args)
     {
@@ -166,7 +166,7 @@ class Client
      * @param \Closure|null $filter
      *
      * @return array|mixed|\Psr\Http\Message\StreamInterface
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException|\HarmSmits\SendCloudClient\Exception\RequestException
      */
     private function handleRequest($method, $url, $data, array $responseFormat, ?\Closure $filter)
     {
@@ -194,7 +194,6 @@ class Client
     {
         if ($responseFormat && isset($responseFormat[$response->getStatusCode()])) {
             $body = json_decode($response->getBody(), true);
-            print_r($body);
             $body = $filter ? $filter($body) : $body;
             return $this->populator->populate($responseFormat[$response->getStatusCode()], $body);
         } elseif ($response->getStatusCode() !== 200) {

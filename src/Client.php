@@ -2,6 +2,7 @@
 
 namespace HarmSmits\SendCloudClient;
 
+use Closure;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
@@ -74,10 +75,10 @@ class Client
     /** @var \GuzzleHttp\Client */
     protected \GuzzleHttp\Client $client;
 
-    /** @var \HarmSmits\SendCloudClient\Request request dispatcher */
+    /** @var Request request dispatcher */
     protected Request $request;
 
-    /** @var \HarmSmits\SendCloudClient\Populator */
+    /** @var Populator */
     protected Populator $populator;
 
     /** @var string api key */
@@ -120,7 +121,7 @@ class Client
      * @param array  $args
      *
      * @return array|\GuzzleHttp\Promise\PromiseInterface|mixed|\Psr\Http\Message\StreamInterface
-     * @throws \GuzzleHttp\Exception\GuzzleException|\HarmSmits\SendCloudClient\Exception\RequestException
+     * @throws \GuzzleHttp\Exception\GuzzleException|Exception\RequestException
      */
     public function __call(string $method, array $args)
     {
@@ -144,11 +145,11 @@ class Client
      * @param               $url
      * @param               $data
      * @param array         $responseFormat
-     * @param \Closure|null $filter
+     * @param Closure|null $filter
      *
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    private function handleAsyncRequest($method, $url, $data, array $responseFormat, ?\Closure $filter): PromiseInterface
+    private function handleAsyncRequest($method, $url, $data, array $responseFormat, ?Closure $filter): PromiseInterface
     {
         return $this->client->requestAsync($method, $url, $data)
             ->then(function (ResponseInterface $response) use (&$responseFormat, $filter) {
@@ -163,12 +164,12 @@ class Client
      * @param               $url
      * @param               $data
      * @param array         $responseFormat
-     * @param \Closure|null $filter
+     * @param Closure|null $filter
      *
      * @return array|mixed|\Psr\Http\Message\StreamInterface
-     * @throws \GuzzleHttp\Exception\GuzzleException|\HarmSmits\SendCloudClient\Exception\RequestException
+     * @throws \GuzzleHttp\Exception\GuzzleException|Exception\RequestException
      */
-    private function handleRequest($method, $url, $data, array $responseFormat, ?\Closure $filter)
+    private function handleRequest($method, $url, $data, array $responseFormat, ?Closure $filter)
     {
         try {
             $result = $this->client->request($method, $url, $data);
@@ -183,32 +184,36 @@ class Client
     /**
      * Handle the response accordingly
      *
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param array                               $responseFormat
-     * @param \Closure|null                       $filter
+     * @param ResponseInterface|null $response
+     * @param array $responseFormat
+     * @param Closure|null $filter
      *
      * @return array|mixed|\Psr\Http\Message\StreamInterface
-     * @throws \HarmSmits\SendCloudClient\Exception\RequestException
+     * @throws Exception\RequestException
      */
-    private function handleResponse(ResponseInterface &$response, array &$responseFormat, ?\Closure $filter)
+    private function handleResponse(?ResponseInterface &$response, array &$responseFormat, ?Closure $filter)
     {
-        if ($responseFormat && isset($responseFormat[$response->getStatusCode()])) {
-            $body = json_decode($response->getBody(), true);
-            $body = $filter ? $filter($body) : $body;
-            return $this->populator->populate($responseFormat[$response->getStatusCode()], $body);
-        } elseif ($response->getStatusCode() !== 200) {
-            throw new \HarmSmits\SendCloudClient\Exception\RequestException();
+        if ($response) {
+            if ($responseFormat && isset($responseFormat[$response->getStatusCode()])) {
+                $body = json_decode($response->getBody(), true);
+                $body = $filter ? $filter($body) : $body;
+                return $this->populator->populate($responseFormat[$response->getStatusCode()], $body);
+            } elseif ($response->getStatusCode() !== 200) {
+                throw new Exception\RequestException();
+            } else {
+                return $response->getBody();
+            }
         } else {
-            return $response->getBody();
+            return '';
         }
     }
 
     /**
      * Get the request handler
      *
-     * @return \Closure
+     * @return Closure
      */
-    private function getRequestHandler(): \Closure
+    private function getRequestHandler(): Closure
     {
         return function (RequestInterface $request) {
             $request = $request->withHeader(
@@ -227,12 +232,12 @@ class Client
     /**
      * Get the retry handler
      *
-     * @return \Closure
+     * @return Closure
      */
-    private function getRetryHandler(): \Closure
+    private function getRetryHandler(): Closure
     {
         return function ($retries, ?RequestInterface $request, ?ResponseInterface $response, ?RequestException $exception) {
-            if ($response->getStatusCode() == 429) {
+            if ($response && $response->getStatusCode() == 429) {
                 if ($this->autoRateLimit) {
                     sleep($this->autoRateLimit);
                     return true;

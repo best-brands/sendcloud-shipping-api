@@ -87,7 +87,7 @@ class Client
     /** @var string api secret */
     protected string $apiSecret;
 
-    /** @var string partner uuid */
+    /** @var string|null partner uuid */
     protected ?string $partnerUuid;
 
     protected int $autoRateLimit;

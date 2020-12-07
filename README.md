@@ -46,7 +46,7 @@ $promise = $client->asyncGetParcelStatuses();
 $result = $promise->wait();
 ```
 
-## The following methods can be used directly from the client, prefix with `async` if you want to get a promise
+## The following methods can be used directly from the client, suffix with `Async` if you want to get a promise.
 
 * getParcels
 * getParcel

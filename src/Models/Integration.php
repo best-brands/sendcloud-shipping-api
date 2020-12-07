@@ -85,7 +85,7 @@ class Integration extends AModel
         return $this;
     }
 
-    public function getFailingSince(): string
+    public function getFailingSince(): ?string
     {
         return $this->failingSince;
     }

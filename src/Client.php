@@ -3,6 +3,7 @@
 namespace HarmSmits\SendCloudClient;
 
 use Closure;
+use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
@@ -173,7 +174,7 @@ class Client
     {
         try {
             $result = $this->client->request($method, $url, $data);
-        } catch (RequestException $exception) {
+        } catch (BadResponseException $exception) {
             $response = $exception->getResponse();
             return $this->handleResponse($response, $responseFormat, $filter);
         }
@@ -199,7 +200,7 @@ class Client
                 $body = $filter ? $filter($body) : $body;
                 return $this->populator->populate($responseFormat[$response->getStatusCode()], $body);
             } elseif ($response->getStatusCode() !== 200) {
-                throw new Exception\RequestException();
+                throw new RequestException('Erroneous error value', $response);
             } else {
                 return $response->getBody();
             }

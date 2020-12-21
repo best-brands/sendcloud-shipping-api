@@ -2,7 +2,7 @@
 
 namespace HarmSmits\SendCloudClient\Models;
 
-use HarmSmits\SendCloudClient\Exception\InvalidArgumentException ;
+use HarmSmits\SendCloudClient\Exception\InvalidArgumentException;
 
 /**
  * Class AModel
@@ -18,19 +18,38 @@ abstract class AModel implements IModel
      *
      * @return array[]
      */
-    protected function _convertPureArray(array $array) {
+    protected function _convertPureArray(array $array): array
+    {
         return array_map(function (AModel $item) {
-            return $item->__toArray();
+            return $this->_convert($item);
         }, $array);
+    }
+
+    /**
+     * Converts an optional model.
+     *
+     * @param $to_convert
+     *
+     * @return array|null
+     */
+    protected function _convert($to_convert): ?array
+    {
+        if ($to_convert instanceof AModel) {
+            return $to_convert->__toArray();
+        } else {
+            return null;
+        }
     }
 
     /**
      * Check if array is pure of type $type
      *
-     * @param array  $array
+     * @param array $array
      * @param string $type
+     * @throws InvalidArgumentException
      */
-    protected function _checkIfPureArray(array $array, string $type): void {
+    protected function _checkIfPureArray(array $array, string $type): void
+    {
         array_walk($array, function ($item) use ($type) {
             if (!is_a($item, $type)) {
                 throw new InvalidArgumentException(sprintf("Unexpected class %s", get_class($item)));
@@ -47,7 +66,8 @@ abstract class AModel implements IModel
      *
      * @throws InvalidArgumentException
      */
-    protected function _checkIntegerBounds(int $check, int $min, int $max) {
+    protected function _checkIntegerBounds(int $check, int $min, int $max)
+    {
         if ($check < $min || $check > $max)
             throw new InvalidArgumentException("Integer is not in correct range");
     }
@@ -59,9 +79,10 @@ abstract class AModel implements IModel
      * @param float $min
      * @param float $max
      *
-     * @throws \HarmSmits\SendCloudClient\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    protected function _checkFloatBounds(float $check, float $min, float $max) {
+    protected function _checkFloatBounds(float $check, float $min, float $max)
+    {
         if ($check < $min || $check > $max)
             throw new InvalidArgumentException("Float is not in correct range");
     }
@@ -70,11 +91,12 @@ abstract class AModel implements IModel
      * Apply default value
      *
      * @param int|null $int
-     * @param int      $default
+     * @param int $default
      *
      * @return int
      */
-    protected function _checkIntegerDefault(?int $int, int $default) {
+    protected function _checkIntegerDefault(?int $int, int $default): int
+    {
         return is_null($int) ? $default : $int;
     }
 
@@ -82,12 +104,13 @@ abstract class AModel implements IModel
      * Check if an array is of the correct size
      *
      * @param array $array
-     * @param int   $min
-     * @param int   $max
+     * @param int $min
+     * @param int $max
      *
      * @throws InvalidArgumentException
      */
-    protected function _checkArrayBounds(array $array, int $min, int $max) {
+    protected function _checkArrayBounds(array $array, int $min, int $max)
+    {
         $this->_checkIntegerBounds(count($array), $min, $max);
     }
 
@@ -95,9 +118,10 @@ abstract class AModel implements IModel
      * Check if an enum is valid
      *
      * @param string $enum
-     * @param array  $enums
+     * @param array $enums
      */
-    protected function _checkEnumBounds(string $enum, array $enums) {
+    protected function _checkEnumBounds(string $enum, array $enums)
+    {
         if (!in_array($enum, $enums))
             throw new \InvalidArgumentException("Unknown enum");
     }
@@ -105,10 +129,10 @@ abstract class AModel implements IModel
     /**
      * Verify integer format
      *
-     * @param int    $integer
+     * @param int $integer
      * @param string $format
      */
-    protected function _checkIntegerFormat(int $integer, string $format) {
-
+    protected function _checkIntegerFormat(int $integer, string $format)
+    {
     }
 }

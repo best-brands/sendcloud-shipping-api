@@ -249,7 +249,7 @@ class ReducedParcel extends AModel
             "name" => $this->getName(),
             "company_name" => $this->getCompanyName(),
             "address" => $this->getAddress(),
-            "address_divided" => $this->getAddressDivided()->__toArray(),
+            "address_divided" => $this->_convert($this->getAddressDivided()),
             "city" => $this->getCity(),
             "postal_code" => $this->getPostalCode(),
             "telephone" => $this->getTelephone(),
@@ -257,11 +257,11 @@ class ReducedParcel extends AModel
             "date_created" => $this->getDateCreated(),
             "tracking_number" => $this->getTrackingNumber(),
             "weight" => $this->getWeight(),
-            "label" => $this->getLabel()->__toArray(),
-            "status" => $this->getStatus()->__toArray(),
+            "label" => $this->_convert($this->getLabel()),
+            "status" => $this->_convert($this->getStatus()),
             "data" => $this->getData(),
-            "country" => $this->getCountry()->__toArray(),
-            "shipment" => $this->getShipment()->__toArray()
+            "country" => $this->_convert( $this->getCountry()),
+            "shipment" => $this->_convert($this->getShipment())
         ];
     }
 }

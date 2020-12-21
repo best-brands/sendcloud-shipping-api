@@ -75,7 +75,7 @@ class Refund extends AModel
     public function __toArray(): array
     {
         return [
-            "refund_type" => $this->getRefundType()->__toArray(),
+            "refund_type" => $this->_convert($this->getRefundType()),
             "total_refund" => $this->getTotalRefund(),
             "refunded_at" => $this->getRefundedAt()
                 ? $this->getRefundedAt()->format(DATE_ISO8601)

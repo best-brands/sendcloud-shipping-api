@@ -282,9 +282,9 @@ class ReturnItem extends AModel
             "items_cost" => $this->getItemsCost(),
             "delivered_at" => $this->getDeliveredAt(),
             "delivery_option" => $this->getDeliveryOption(),
-            "outgoing_parcel_data" => $this->getOutgoingParcelData()->__toArray(),
-            "incoming_parcel_data" => $this->getIncomingParcelData()->__toArray(),
-            "incoming_parcel_status" => $this->getIncomingParcelStatus()->__toArray()
+            "outgoing_parcel_data" => $this->_convert($this->getOutgoingParcelData()),
+            "incoming_parcel_data" => $this->_convert($this->getIncomingParcelData()),
+            "incoming_parcel_status" => $this->_convert($this->getIncomingParcelStatus())
         ];
     }
 }

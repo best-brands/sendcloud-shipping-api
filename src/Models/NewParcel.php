@@ -215,7 +215,7 @@ class NewParcel extends AModel
             "email" => $this->getEmail(),
             "data" => $this->getData(),
             "country" => $this->getCountry(),
-            "shipment" => $this->getShipment()->__toArray(),
+            "shipment" => $this->_convert($this->getShipment()),
             "weight" => $this->getWeight(),
             "order_number" => $this->getOrderNumber(),
             "insured_value" => $this->getInsuredValue()

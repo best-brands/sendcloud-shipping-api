@@ -31,7 +31,7 @@ use Psr\Http\Message\ResponseInterface;
  * @method PromiseInterface getParcelDocumentsAsync(string $parcelId, string $documentType, string $format = "application/pdf", int $dpi = 72)
  * @method string getParcelDocuments(string $parcelId, string $documentType, string $format = "application/pdf", int $dpi = 72)
  * @method PromiseInterface getParcelStatusesAsync()
- * @method \HarmSmits\SendCloudClient\Models\Status[] getParcelStatuses()
+ * @method \HarmSmits\SendCloudClient\Models\ParcelStatus[] getParcelStatuses()
  * @method PromiseInterface getReturnsAsync(?string $cursor = null)
  * @method \HarmSmits\SendCloudClient\Models\ReturnsResponse getReturns(?string $cursor = null)
  * @method PromiseInterface getReturnAsync(string $returnId)

@@ -482,7 +482,7 @@ class Request
             200 =>
                 array(
                     '$type' => 'OBJ_ARRAY',
-                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\Status',
+                    '$ref' => 'HarmSmits\\SendCloudClient\\Models\\ParcelStatus',
                 ),
         ];
         $responseFilter = null;
@@ -742,8 +742,9 @@ class Request
     public function getShippingMethod(int $id, $sender_address = "all", ?int $servicePointId = null, ?bool $isReturn = null): array
     {
         $data = [];
-        $url = "https://panel.sendcloud.sc/api/v2/brands";
+        $url = "https://panel.sendcloud.sc/api/v2/shipping_methods/{id}";
         $method = "get";
+        $url = str_replace("{id}", $id, $url);
         $data["headers"] = array(
             "Accept" => "application/json, text/plain, */*"
         );

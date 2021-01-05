@@ -67,10 +67,10 @@ class Document extends AModel
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "type" => $this->getType(),
             "size" => $this->getSize(),
             "link" => $this->getLink()
-        ];
+        ]);
     }
 }

@@ -32,11 +32,9 @@ class LabelDocument extends AModel
 
     public function __toArray(): array
     {
-        return [
-            "label" => ($this->getLabel())
-                ? $this->getLabel()->__toArray()
-                : [],
+        return array_filter([
+            "label" => ($this->getLabel()) ? $this->getLabel()->__toArray() : [],
             "customs_declaration" => $this->getCustomsDeclaration()
-        ];
+        ]);
     }
 }

@@ -24,10 +24,10 @@ final class ParcelsResponse extends APagination
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "next" => $this->getNext(),
             "previous" => $this->getPrevious(),
             "parcels" => $this->_convertPureArray($this->getParcels())
-        ];
+        ]);
     }
 }

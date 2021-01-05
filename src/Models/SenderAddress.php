@@ -188,7 +188,7 @@ class SenderAddress extends AModel
     
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "id" => $this->getId(),
             "company_name" => $this->getCompanyName(),
             "contact_name" => $this->getContactName(),
@@ -203,6 +203,6 @@ class SenderAddress extends AModel
             "vat_number" => $this->getVatNumber(),
             "coc_number" => $this->getCocNumber(),
             "eori_number" => $this->getEoriNumber(),
-        ];
+        ]);
     }
 }

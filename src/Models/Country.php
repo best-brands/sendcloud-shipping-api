@@ -45,10 +45,10 @@ class Country extends AModel
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "iso_3" => $this->getIso3(),
             "iso_2" => $this->getIso2(),
             "name" => $this->getName()
-        ];
+        ]);
     }
 }

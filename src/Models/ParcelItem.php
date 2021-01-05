@@ -137,7 +137,7 @@ class ParcelItem extends AModel
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "description" => $this->getDescription(),
             "hs_code" => $this->getHsCode(),
             "origin_country" => $this->getOriginCountry(),
@@ -147,6 +147,6 @@ class ParcelItem extends AModel
             "sku" => $this->getSku(),
             "value" => $this->getValue(),
             "weight" => $this->getWeight()
-        ];
+        ]);
     }
 }

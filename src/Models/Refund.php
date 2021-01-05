@@ -11,7 +11,7 @@ class Refund extends AModel
 
     protected float $totalRefund = 0;
 
-    protected ?\DateTime $refundedAt = null;
+    protected ?DateTime $refundedAt = null;
 
     protected string $message;
 
@@ -45,7 +45,7 @@ class Refund extends AModel
     public function setRefundedAt($refundedAt): self
     {
         if (is_string($refundedAt))
-            $refundedAt = DateTime::createFromFormat("m-d-Y H:i:s", $date);
+            $refundedAt = DateTime::createFromFormat("m-d-Y H:i:s", $refundedAt);
 
         if ($refundedAt instanceof DateTime) {
             $this->refundedAt = $refundedAt;
@@ -74,13 +74,13 @@ class Refund extends AModel
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "refund_type" => $this->_convert($this->getRefundType()),
             "total_refund" => $this->getTotalRefund(),
             "refunded_at" => $this->getRefundedAt()
                 ? $this->getRefundedAt()->format(DATE_ISO8601)
                 : "",
             "message" => $this->getMessage()
-        ];
+        ]);
     }
 }

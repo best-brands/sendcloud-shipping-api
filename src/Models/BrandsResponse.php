@@ -24,10 +24,10 @@ final class BrandsResponse extends APagination
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "next" => $this->getNext(),
             "previous" => $this->getPrevious(),
             "brands" => $this->_convertPureArray($this->getBrands())
-        ];
+        ]);
     }
 }

@@ -23,10 +23,10 @@ class ShipmentsResponse extends APagination
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "next" => $this->getNext(),
             "previous" => $this->getPrevious(),
             "results" => $this->_convertPureArray($this->results)
-        ];
+        ]);
     }
 }

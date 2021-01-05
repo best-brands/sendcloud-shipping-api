@@ -207,7 +207,7 @@ class Brand extends AModel
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "id" => $this->getId(),
             "name" => $this->getName(),
             "color" => $this->getColor(),
@@ -223,6 +223,6 @@ class Brand extends AModel
             "domain" => $this->getDomain(),
             "notify_bcc_email" => $this->getNotifyBccEmail(),
             "hide_powered_by" => $this->getHidePoweredBy()
-        ];
+        ]);
     }
 }

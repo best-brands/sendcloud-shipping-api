@@ -117,7 +117,7 @@ class ShippingMethod extends AModel
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "service_point_input" => $this->getServicePointInput(),
             "max_weight" => $this->getMaxWeight(),
             "name" => $this->getName(),
@@ -126,6 +126,6 @@ class ShippingMethod extends AModel
             "min_weight" => $this->getMinWeight(),
             "id" => $this->getId(),
             "price" => $this->getPrice()
-        ];
+        ]);
     }
 }

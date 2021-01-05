@@ -7,7 +7,7 @@ use HarmSmits\SendCloudClient\Exception\InvalidArgumentException;
 
 class Invoice extends AModel
 {
-    protected \DateTime $date;
+    protected DateTime $date;
 
     protected int $id = 0;
 
@@ -132,7 +132,7 @@ class Invoice extends AModel
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "date" => $this->getDate(),
             "id" => $this->getId(),
             "isPayed" => $this->getIsPayed(),
@@ -141,6 +141,6 @@ class Invoice extends AModel
             "price_incl" => $this->getPriceIncl(),
             "ref" => $this->getRef(),
             "type" => $this->getType()
-        ];
+        ]);
     }
 }

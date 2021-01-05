@@ -38,9 +38,9 @@ class Label extends AModel
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "normal_printer" => $this->getNormalPrinter(),
             "labelPrinter" => $this->getLabelPrinter()
-        ];
+        ]);
     }
 }

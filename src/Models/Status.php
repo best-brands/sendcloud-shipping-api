@@ -32,9 +32,9 @@ class Status extends AModel
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "status" => $this->getStatus(),
             "message" => $this->getMessage()
-        ];
+        ]);
     }
 }

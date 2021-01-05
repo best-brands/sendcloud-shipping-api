@@ -135,13 +135,13 @@ class NewParcel extends AModel
         return $this->email;
     }
 
-    public function setData(string $data): self
+    public function setData(array $data): self
     {
         $this->data = $data;
         return $this;
     }
 
-    public function getData(): string
+    public function getData(): array
     {
         return $this->data;
     }
@@ -203,7 +203,7 @@ class NewParcel extends AModel
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "name" => $this->getName(),
             "company_name" => $this->getCompanyName(),
             "address" => $this->getAddress(),
@@ -219,6 +219,6 @@ class NewParcel extends AModel
             "weight" => $this->getWeight(),
             "order_number" => $this->getOrderNumber(),
             "insured_value" => $this->getInsuredValue()
-        ];
+        ]);
     }
 }

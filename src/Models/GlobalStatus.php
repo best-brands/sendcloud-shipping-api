@@ -19,10 +19,10 @@ class GlobalStatus extends Status
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "status" => $this->getStatus(),
             "message" => $this->getMessage(),
             "global_status_slug" => $this->getGlobalStatusSlug()
-        ];
+        ]);
     }
 }

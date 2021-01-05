@@ -203,7 +203,7 @@ class Parcel extends ReducedParcel
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "address" => $this->getAddress(),
             "address_2" => $this->getAddress2(),
             "address_divided" => $this->_convert($this->getAddressDivided()),
@@ -236,6 +236,6 @@ class Parcel extends ReducedParcel
             "tracking_url" => $this->getTrackingUrl(),
             "weight" => $this->getWeight(),
             "type" => $this->getType()
-        ];
+        ]);
     }
 }

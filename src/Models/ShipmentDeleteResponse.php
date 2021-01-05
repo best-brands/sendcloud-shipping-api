@@ -32,9 +32,9 @@ class ShipmentDeleteResponse extends AModel
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "external_order_id" => $this->getExternalOrderId(),
             "external_shipment_id" => $this->getExternalShipmentId()
-        ];
+        ]);
     }
 }

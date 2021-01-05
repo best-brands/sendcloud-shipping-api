@@ -75,7 +75,7 @@ class ReturnItem extends AModel
     public function setCreatedAt($createdAt): self
     {
         if (is_string($createdAt))
-            $createdAt = DateTime::createFromFormat("m-d-Y H:i:s", $date);
+            $createdAt = DateTime::createFromFormat("m-d-Y H:i:s", $createdAt);
 
         if ($createdAt instanceof DateTime) {
             $this->createdAt = $createdAt;
@@ -204,7 +204,7 @@ class ReturnItem extends AModel
     public function setDeliveredAt($deliveredAt): self
     {
         if (is_string($deliveredAt))
-            $deliveredAt = DateTime::createFromFormat("m-d-Y H:i:s", $date);
+            $deliveredAt = DateTime::createFromFormat("m-d-Y H:i:s", $deliveredAt);
 
         if ($deliveredAt instanceof DateTime) {
             $this->createdAt = $deliveredAt;
@@ -266,7 +266,7 @@ class ReturnItem extends AModel
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "id" => $this->getId(),
             "email" => $this->getEmail(),
             "created_at" => $this->getCreatedAt()->format(DATE_ISO8601),
@@ -285,6 +285,6 @@ class ReturnItem extends AModel
             "outgoing_parcel_data" => $this->_convert($this->getOutgoingParcelData()),
             "incoming_parcel_data" => $this->_convert($this->getIncomingParcelData()),
             "incoming_parcel_status" => $this->_convert($this->getIncomingParcelStatus())
-        ];
+        ]);
     }
 }

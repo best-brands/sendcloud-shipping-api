@@ -244,7 +244,7 @@ class ReducedParcel extends AModel
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "id" => $this->getid(),
             "name" => $this->getName(),
             "company_name" => $this->getCompanyName(),
@@ -262,6 +262,6 @@ class ReducedParcel extends AModel
             "data" => $this->getData(),
             "country" => $this->_convert( $this->getCountry()),
             "shipment" => $this->_convert($this->getShipment())
-        ];
+        ]);
     }
 }

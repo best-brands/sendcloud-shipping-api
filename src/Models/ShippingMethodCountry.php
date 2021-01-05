@@ -32,12 +32,12 @@ class ShippingMethodCountry extends Country
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "iso_3" => $this->getIso3(),
             "iso_2" => $this->getIso2(),
             "id" => $this->getId(),
             "price" => $this->getPrice(),
             "name" => $this->getName()
-        ];
+        ]);
     }
 }

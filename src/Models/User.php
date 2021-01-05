@@ -25,7 +25,7 @@ class User extends AModel
 
     protected string $postalCode;
 
-    protected \DateTime $registered;
+    protected DateTime $registered;
 
     protected string $telephone;
 
@@ -183,7 +183,7 @@ class User extends AModel
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "address" => $this->getAddress(),
             "city" => $this->getCity(),
             "company_logo" => $this->getCompanyLogo(),
@@ -196,6 +196,6 @@ class User extends AModel
             "registered" => $this->getRegistered(),
             "telephone" => $this->getTelephone(),
             "username" => $this->getUsername()
-        ];
+        ]);
     }
 }

@@ -110,7 +110,7 @@ class ParcelData extends AModel
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "tracking_url" => $this->getTrackingUrl(),
             "tracking_number" => $this->getTrackingNumber(),
             "parcel_status" => $this->getParcelStatus(),
@@ -119,6 +119,6 @@ class ParcelData extends AModel
             "order_number" => $this->getOrderNumber(),
             "from_email" => $this->getFromEmail(),
             "deleted" => $this->getDeleted()
-        ];
+        ]);
     }
 }

@@ -19,8 +19,8 @@ class TypeCode extends AModel
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "code" => $this->getCode()
-        ];
+        ]);
     }
 }

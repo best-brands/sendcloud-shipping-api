@@ -19,8 +19,8 @@ class Url extends AModel
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "url" => $this->getUrl()
-        ];
+        ]);
     }
 }

@@ -455,7 +455,7 @@ class Shipment extends AModel
     
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "address" => $this->getAddress(),
             "address_2" => $this->getAddress2(),
             "allowed_shipping_methods" => $this->getAllowedShippingMethods(),
@@ -488,6 +488,6 @@ class Shipment extends AModel
             "to_service_point" => $this->getToServicePoint(),
             "to_state" => $this->getToState(),
             "weight" => $this->getWeight()
-        ];
+        ]);
     }
 }

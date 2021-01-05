@@ -17,9 +17,9 @@ class Integration extends AModel
 
     protected ?string $failingSince = null;
 
-    protected \DateTime $lastFetch;
+    protected DateTime $lastFetch;
 
-    protected \DateTime $lastUpdatedAt;
+    protected DateTime $lastUpdatedAt;
 
     protected bool $servicePointEnabled = false;
 
@@ -182,7 +182,7 @@ class Integration extends AModel
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "id" => $this->getId(),
             "shop_name" => $this->getShopName(),
             "shop_url" => $this->getShopUrl(),
@@ -194,6 +194,6 @@ class Integration extends AModel
             "service_point_carriers" => $this->getServicePointCarriers(),
             "webhook_active" => $this->getWebhookActive(),
             "webhook_url" => $this->getWebhookUrl()
-        ];
+        ]);
     }
 }

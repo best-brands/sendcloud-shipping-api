@@ -35,9 +35,9 @@ class ParcelStatus extends AModel
      */
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "id" => $this->getId(),
             "message" => $this->getMessage()
-        ];
+        ]);
     }
 }

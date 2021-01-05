@@ -32,9 +32,9 @@ class ParcelAddressDivided extends AModel
 
     public function __toArray(): array
     {
-        return [
+        return array_filter([
             "street" => $this->getStreet(),
             "house_number" => $this->getHouseNumber()
-        ];
+        ]);
     }
 }

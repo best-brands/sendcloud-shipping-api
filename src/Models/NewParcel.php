@@ -163,7 +163,7 @@ class NewParcel extends AModel
         return $this;
     }
 
-    public function getShipment(): ParcelShipment
+    public function getShipment(): ?ParcelShipment
     {
         return $this->shipment;
     }

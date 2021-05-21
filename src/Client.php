@@ -200,7 +200,7 @@ class Client
                 $body = $filter ? $filter($body) : $body;
                 return $this->populator->populate($responseFormat[$response->getStatusCode()], $body);
             } elseif ($response->getStatusCode() !== 200) {
-                throw new RequestException('Erroneous error value', $response);
+                throw new Exception\RequestException('Erroneous error value', $response);
             } else {
                 return $response->getBody();
             }

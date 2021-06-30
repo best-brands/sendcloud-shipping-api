@@ -236,7 +236,7 @@ class Request
         $url = "https://panel.sendcloud.sc/api/v2/parcels";
         $method = "post";
         $data["json"] = [
-            "parcel" => array_map(fn(NewParcel $parcel) => $parcel->__toArray(), $parcels)
+            "parcels" => array_map(fn(NewParcel $parcel) => $parcel->__toArray(), $parcels)
         ];
         $data["headers"] = array(
             "Accept" => "application/json, text/plain, */*"

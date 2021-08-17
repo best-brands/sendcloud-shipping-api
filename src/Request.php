@@ -689,7 +689,7 @@ class Request
     public function getShippingMethods($sender_address = "all", ?int $servicePointId = null, ?bool $isReturn = null): array
     {
         $data = [];
-        $url = "https://panel.sendcloud.sc/api/v2/brands";
+        $url = "https://panel.sendcloud.sc/api/v2/shipping_methods";
         $method = "get";
         $data["headers"] = array(
             "Accept" => "application/json, text/plain, */*"

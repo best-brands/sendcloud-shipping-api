@@ -249,4 +249,19 @@ class Client
             return false;
         };
     }
+
+    /**
+     * Make a request without models.
+     *
+     * @param string $method
+     * @param string $uri
+     * @param array  $opts
+     *
+     * @return ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function request(string $method, string $uri, array $opts = [])
+    {
+        return $this->client->request($method, $uri, $opts);
+    }
 }

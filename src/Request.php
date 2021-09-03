@@ -819,7 +819,9 @@ class Request
             "Accept" => "application/json, text/plain, */*"
         );
         $data["json"] = [
-            "parcels" => $parcelIds
+            "label" => [
+                "parcels" => $parcelIds
+            ]
         ];
         $response = [
             200 =>

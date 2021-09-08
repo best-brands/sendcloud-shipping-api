@@ -150,7 +150,7 @@ class Client
      *
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    private function handleAsyncRequest($method, $url, $data, array $responseFormat, ?Closure $filter): PromiseInterface
+    private function handleAsyncRequest($method, $url, $data, $responseFormat, ?Closure $filter): PromiseInterface
     {
         return $this->client->requestAsync($method, $url, $data)
             ->then(function (ResponseInterface $response) use (&$responseFormat, $filter) {
@@ -170,7 +170,7 @@ class Client
      * @return array|mixed|\Psr\Http\Message\StreamInterface
      * @throws \GuzzleHttp\Exception\GuzzleException|Exception\RequestException
      */
-    private function handleRequest($method, $url, $data, array $responseFormat, ?Closure $filter)
+    private function handleRequest($method, $url, $data, $responseFormat, ?Closure $filter)
     {
         try {
             $result = $this->client->request($method, $url, $data);
@@ -192,7 +192,7 @@ class Client
      * @return array|mixed|\Psr\Http\Message\StreamInterface
      * @throws Exception\RequestException
      */
-    private function handleResponse(?ResponseInterface &$response, array &$responseFormat, ?Closure $filter)
+    private function handleResponse(?ResponseInterface &$response, &$responseFormat, ?Closure $filter)
     {
         if ($response) {
             if ($responseFormat && isset($responseFormat[$response->getStatusCode()])) {

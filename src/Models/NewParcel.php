@@ -10,6 +10,8 @@ class NewParcel extends AModel
 
     protected string $address = "";
 
+    protected string $address2 = "";
+
     protected string $houseNumber = "";
 
     protected string $city = "";
@@ -35,6 +37,8 @@ class NewParcel extends AModel
     protected int $insuredValue = 0;
 
     protected string $externalReference = "";
+
+    protected int $senderAddress = 0;
 
     public function setName(string $name): self
     {
@@ -67,6 +71,12 @@ class NewParcel extends AModel
     public function getAddress(): string
     {
         return $this->address;
+    }
+
+    public function setAddress2(string $address2): self
+    {
+        $this->address2 = $address2;
+        return $this;
     }
 
     public function setHouseNumber(string $houseNumber): self
@@ -201,6 +211,17 @@ class NewParcel extends AModel
         return $this->insuredValue;
     }
 
+    public function setSenderAddress(int $senderAddress): self
+    {
+        $this->senderAddress = $senderAddress;
+        return $this;
+    }
+
+    public function getSenderAddress(): int
+    {
+        return $this->senderAddress;
+    }
+
     public function __toArray(): array
     {
         return array_filter([
@@ -218,7 +239,8 @@ class NewParcel extends AModel
             "shipment" => $this->_convert($this->getShipment()),
             "weight" => $this->getWeight(),
             "order_number" => $this->getOrderNumber(),
-            "insured_value" => $this->getInsuredValue()
+            "insured_value" => $this->getInsuredValue(),
+            "sender_address" => $this->getSenderAddress(),
         ]);
     }
 }

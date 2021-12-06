@@ -200,7 +200,14 @@ class Client
                 $body = $filter ? $filter($body) : $body;
                 return $this->populator->populate($responseFormat[$response->getStatusCode()], $body);
             } elseif ($response->getStatusCode() !== 200) {
-                throw new Exception\RequestException('Erroneous error value');
+                $body = json_decode($response->getBody(), true);
+                $message = 'Unknown API error';
+
+                if (!empty($body['error']['message'])) {
+                    $message = $body['error']['message'];
+                }
+
+                throw new Exception\RequestException($message);
             } else {
                 return $response->getBody();
             }
